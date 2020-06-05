@@ -1,0 +1,13 @@
+server:
+  port: 8080
+
+spring:
+# ˝æ›ø‚≈‰÷√
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://rm-bp11053l397t80w54po.mysql.rds.aliyuncs.com:3306/spz
+    username: taoxinhua
+    password: taoxinhua123456
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
