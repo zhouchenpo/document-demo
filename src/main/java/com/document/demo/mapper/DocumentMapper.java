@@ -14,5 +14,7 @@ public interface DocumentMapper {
 
     void deleteByName(String name);
 
-//    void insert(Document document);
+    void insert(Document document);
+
+     void updateById(Document document);
 }

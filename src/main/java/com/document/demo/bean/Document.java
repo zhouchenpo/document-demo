@@ -20,4 +20,19 @@ public class Document {
     String year;                    //年份
     String page;                   //页数
 
+    public Document(String documentNumber, String fileNumber, String boxNumber, String folderNumber, String name, String time, String effectiveTime, String securityLevel, String responsibility, String remarks, String year, String page,String id) {
+        this.documentNumber = documentNumber;
+        this.fileNumber = fileNumber;
+        this.boxNumber = boxNumber;
+        this.folderNumber = folderNumber;
+        this.name = name;
+        this.time = time;
+        this.effectiveTime = effectiveTime;
+        this.securityLevel = securityLevel;
+        this.responsibility = responsibility;
+        this.remarks = remarks;
+        this.year = year;
+        this.page = page;
+        this.id = id;
+    }
 }

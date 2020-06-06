@@ -32,16 +32,33 @@
         DELETE FROM document where name = #{name}
     </delete>
 
-<!--    <insert id="insert" parameterType="com.document.demo.bean.Document" >-->
-<!--  	INSERT INTO document(documentNumber,fileNumber,-->
-<!--                boxNumber,folderNumber,name,-->
-<!--                time,effectiveTime,securityLevel,responsibility,-->
-<!--                remarks,year,page)-->
-<!--  	VALUES(#{documentNumber},#{fileNumber},#{-->
-<!--                boxNumber},#{folderNumber},#{name},#{-->
-<!--                time},#{effectiveTime},#{securityLevel},#{responsibility},#{-->
-<!--                remarks},#{year},#{page})-->
-<!--  </insert>-->
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.document.demo.bean.Document"  useGeneratedKeys="true">
+  	INSERT INTO document(id,document_number,file_number,
+                box_number,folder_number,name,
+                time,effective_time,security_level,responsibility,
+                remarks,year,page)
+  	VALUES(#{id},#{documentNumber},#{fileNumber},#{
+                boxNumber},#{folderNumber},#{name},#{
+                time},#{effectiveTime},#{securityLevel},#{responsibility},#{
+                remarks},#{year},#{page})
+  </insert>
+
+    <update id="updateById" keyColumn="id" keyProperty="id" parameterType="com.document.demo.bean.Document">
+        UPDATE document SET
+        document_number=#{documentNumber},
+        file_number = #{fileNumber},
+         box_number=#{boxNumber},
+         folder_number=#{folderNumber},
+         name=#{name},
+         time=#{time},
+         effective_time=#{effectiveTime},
+         security_level=#{securityLevel},
+         responsibility=#{responsibility},
+        remarks=#{ remarks},
+        year=#{year},
+        page=#{page},
+        WHERE id = #{id}
+    </update>
 
 </mapper>
 
