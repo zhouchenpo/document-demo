@@ -11,4 +11,8 @@ public interface DocumentMapper {
     List<Document> queryAll();
 
     List<Document> queryByName(String name);
+
+    void deleteByName(String name);
+
+//    void insert(Document document);
 }

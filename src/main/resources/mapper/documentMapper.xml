@@ -1,12 +1,47 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.document.demo.mapper.DocumentMapper">
+
+    <resultMap id="DocumentResultMap" type="com.document.demo.bean.Document">
+        <id column="id" jdbcType="VARCHAR" property="id" />
+        <result column="document_number" jdbcType="VARCHAR" property="documentNumber" />
+        <result column="file_number" jdbcType="VARCHAR" property="filerNumber" />
+        <result column="box_number" jdbcType="VARCHAR" property="boxNumber" />
+        <result column="folder_number" jdbcType="VARCHAR" property="folderNumber" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="time" jdbcType="VARCHAR" property="time" />
+        <result column="effective_time" jdbcType="VARCHAR" property="effectiveTime" />
+        <result column="security_level" jdbcType="VARCHAR" property="securityLevel" />
+        <result column="responsibility" jdbcType="VARCHAR" property="responsibility" />
+        <result column="remarks" jdbcType="VARCHAR" property="remarks" />
+        <result column="year" jdbcType="VARCHAR" property="year" />
+        <result column="page" jdbcType="VARCHAR" property="page" />
+    </resultMap>
+
     <select id="queryAll" resultType="com.document.demo.bean.Document">
-        SELECT * FROM document
+        SELECT  id,document_number,file_number,box_number,folder_number,name,time,effective_time,
+        security_level,responsibility,remarks,year,page FROM document
     </select>
 
     <select id="queryByName" resultType="com.document.demo.bean.Document">
-        SELECT * FROM document where name like '%${name}%'
+        SELECT id,document_number,file_number,box_number,folder_number,name,time,effective_time,
+        security_level,responsibility,remarks,year,page FROM document where name like '%${name}%'
     </select>
+
+    <delete id="deleteByName" parameterType="java.lang.String" >
+        DELETE FROM document where name = #{name}
+    </delete>
+
+<!--    <insert id="insert" parameterType="com.document.demo.bean.Document" >-->
+<!--  	INSERT INTO document(documentNumber,fileNumber,-->
+<!--                boxNumber,folderNumber,name,-->
+<!--                time,effectiveTime,securityLevel,responsibility,-->
+<!--                remarks,year,page)-->
+<!--  	VALUES(#{documentNumber},#{fileNumber},#{-->
+<!--                boxNumber},#{folderNumber},#{name},#{-->
+<!--                time},#{effectiveTime},#{securityLevel},#{responsibility},#{-->
+<!--                remarks},#{year},#{page})-->
+<!--  </insert>-->
+
 </mapper>
 

@@ -21,4 +21,12 @@ public class DocumentService {
         return documentMapper.queryByName(name);
     }
 
+    public void deleteByName(String name){
+        documentMapper.deleteByName(name);
+    }
+
+//    public void insert(Document document){
+//        documentMapper.insert(document);
+//    }
+
 }

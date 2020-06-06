@@ -2,6 +2,8 @@ package com.document.demo.bean;
 
 import lombok.Data;
 
+import java.util.UUID;
+
 @Data
 public class Document {
     String documentNumber; //文号
@@ -14,8 +16,8 @@ public class Document {
     String securityLevel;      //密级
     String responsibility;      //负责单位
     String remarks;             //备注
-    int id;
-    int year;
-    int page;
+    String id;                        //UUID
+    String year;                    //年份
+    String page;                   //页数
 
 }
