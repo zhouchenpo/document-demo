@@ -1,10 +1,17 @@
 package com.document.demo.controller;
+import com.document.demo.controller.query.DocumentQuery;
+import com.document.demo.domain.Document;
 import com.document.demo.result.Result;
+import com.document.demo.result.Results;
 import com.document.demo.service.DocumentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.HashMap;
+import java.util.List;
 
 @RestController
 public class DocumentController {
@@ -17,12 +24,25 @@ public class DocumentController {
         return documentService.queryAll(pageNumber,limit);
     }
 
-    @RequestMapping(value = "/document/queryByName", method = RequestMethod.GET)
-    public Result queryByName(String name,String pageNumber,String limit) {
-        return documentService.queryByName(name,pageNumber,limit);
+
+    @RequestMapping(value = "/document/allNew", method = RequestMethod.GET)
+    public Results allNew( DocumentQuery query) {
+        List<Document> documents = documentService.queryAllNew(query);
+        long total =  documentService.queryAllTotal(query);
+        return new Results(new HashMap<String,Object>(){{
+            put("list",documents);
+            put("total",total);
+
+        }});
     }
 
-    @RequestMapping(value = "/document/deleteByName", method = RequestMethod.GET)
+
+//    @RequestMapping(value = "/document/queryByName", method = RequestMethod.GET)
+//    public Result queryByName(String name,String pageNumber,String limit) {
+//        return documentService.queryByName(name,pageNumber,limit);
+//    }
+
+    @RequestMapping(value = "/document/deleteByName", method = {RequestMethod.GET,RequestMethod.POST})
     public void deleteByName(String name) {
         documentService.deleteByName(name);
     }
@@ -66,6 +86,25 @@ public class DocumentController {
                 boxNumber,folderNumber,name,
                 time,effectiveTime,securityLevel,
                 responsibility,remarks,year,page,id);
+    }
+
+
+
+
+
+
+
+
+
+
+    @RequestMapping(value = "/document/insertSelective", method = {RequestMethod.GET,RequestMethod.POST})
+    public void insertSelective( Document document) {
+        documentService.insertSelective(document);
+    }
+
+    @RequestMapping(value = "/document/updateSelective", method = {RequestMethod.GET,RequestMethod.POST})
+    public void updateSelective( Document document) {
+        documentService.updateSelective(document);
     }
 
 }

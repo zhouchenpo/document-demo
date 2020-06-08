@@ -1,20 +1,33 @@
 package com.document.demo.mapper;
 
-import com.document.demo.bean.Document;
-import org.apache.ibatis.annotations.Mapper;
-
+import com.document.demo.domain.Document;
+import com.document.demo.example.DocumentExample;
 import java.util.List;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
-
-@Mapper
+@Repository
 public interface DocumentMapper {
-    List<Document> queryAll();
+    long countByExample(DocumentExample example);
 
-    List<Document> queryByName(String name);
+    int deleteByExample(DocumentExample example);
 
-    void deleteByName(String name);
+    int deleteByPrimaryKey(String id);
 
-    void insert(Document document);
+    int insert(Document record);
 
-     void updateById(Document document);
+    int insertSelective(Document record);
+
+    List<Document> selectByExample(DocumentExample example);
+
+    Document selectByPrimaryKey(String id);
+
+    int updateByExampleSelective(@Param("record") Document record, @Param("example") DocumentExample example);
+
+    int updateByExample(@Param("record") Document record, @Param("example") DocumentExample example);
+
+    int updateByPrimaryKeySelective(Document record);
+
+    int updateByPrimaryKey(Document record);
+
 }

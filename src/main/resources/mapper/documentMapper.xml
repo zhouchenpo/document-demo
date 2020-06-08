@@ -1,6 +1,345 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.document.demo.mapper.DocumentMapper">
+  <resultMap id="BaseResultMap" type="com.document.demo.domain.Document">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="file_number" jdbcType="VARCHAR" property="fileNumber" />
+    <result column="year" jdbcType="VARCHAR" property="year" />
+    <result column="box_number" jdbcType="VARCHAR" property="boxNumber" />
+    <result column="folder_number" jdbcType="VARCHAR" property="folderNumber" />
+    <result column="effective_time" jdbcType="VARCHAR" property="effectiveTime" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="time" jdbcType="VARCHAR" property="time" />
+    <result column="page" jdbcType="VARCHAR" property="page" />
+    <result column="remarks" jdbcType="VARCHAR" property="remarks" />
+    <result column="security_level" jdbcType="VARCHAR" property="securityLevel" />
+    <result column="responsibility" jdbcType="VARCHAR" property="responsibility" />
+    <result column="document_number" jdbcType="VARCHAR" property="documentNumber" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, file_number, `year`, box_number, folder_number, effective_time, `name`, `time`, 
+    page, remarks, security_level, responsibility, document_number
+  </sql>
+  <select id="selectByExample" parameterType="com.document.demo.example.DocumentExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from document
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+    <if test="forUpdate != null and forUpdate == true">
+      for update
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from document
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from document
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.document.demo.example.DocumentExample">
+    delete from document
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.document.demo.domain.Document" useGeneratedKeys="true">
+    insert into document (file_number, `year`, box_number, 
+      folder_number, effective_time, `name`, 
+      `time`, page, remarks, 
+      security_level, responsibility, document_number
+      )
+    values (#{fileNumber,jdbcType=VARCHAR}, #{year,jdbcType=VARCHAR}, #{boxNumber,jdbcType=VARCHAR}, 
+      #{folderNumber,jdbcType=VARCHAR}, #{effectiveTime,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{time,jdbcType=VARCHAR}, #{page,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, 
+      #{securityLevel,jdbcType=VARCHAR}, #{responsibility,jdbcType=VARCHAR}, #{documentNumber,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.document.demo.domain.Document" useGeneratedKeys="true">
+    insert into document
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="fileNumber != null">
+        file_number,
+      </if>
+      <if test="year != null">
+        `year`,
+      </if>
+      <if test="boxNumber != null">
+        box_number,
+      </if>
+      <if test="folderNumber != null">
+        folder_number,
+      </if>
+      <if test="effectiveTime != null">
+        effective_time,
+      </if>
+      <if test="name != null">
+        `name`,
+      </if>
+      <if test="time != null">
+        `time`,
+      </if>
+      <if test="page != null">
+        page,
+      </if>
+      <if test="remarks != null">
+        remarks,
+      </if>
+      <if test="securityLevel != null">
+        security_level,
+      </if>
+      <if test="responsibility != null">
+        responsibility,
+      </if>
+      <if test="documentNumber != null">
+        document_number,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="fileNumber != null">
+        #{fileNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="year != null">
+        #{year,jdbcType=VARCHAR},
+      </if>
+      <if test="boxNumber != null">
+        #{boxNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="folderNumber != null">
+        #{folderNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="effectiveTime != null">
+        #{effectiveTime,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null">
+        #{time,jdbcType=VARCHAR},
+      </if>
+      <if test="page != null">
+        #{page,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null">
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="securityLevel != null">
+        #{securityLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="responsibility != null">
+        #{responsibility,jdbcType=VARCHAR},
+      </if>
+      <if test="documentNumber != null">
+        #{documentNumber,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.document.demo.example.DocumentExample" resultType="java.lang.Long">
+    select count(*) from document
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update document
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fileNumber != null">
+        file_number = #{record.fileNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.year != null">
+        `year` = #{record.year,jdbcType=VARCHAR},
+      </if>
+      <if test="record.boxNumber != null">
+        box_number = #{record.boxNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.folderNumber != null">
+        folder_number = #{record.folderNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.effectiveTime != null">
+        effective_time = #{record.effectiveTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null">
+        `name` = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.time != null">
+        `time` = #{record.time,jdbcType=VARCHAR},
+      </if>
+      <if test="record.page != null">
+        page = #{record.page,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remarks != null">
+        remarks = #{record.remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="record.securityLevel != null">
+        security_level = #{record.securityLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.responsibility != null">
+        responsibility = #{record.responsibility,jdbcType=VARCHAR},
+      </if>
+      <if test="record.documentNumber != null">
+        document_number = #{record.documentNumber,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update document
+    set id = #{record.id,jdbcType=VARCHAR},
+      file_number = #{record.fileNumber,jdbcType=VARCHAR},
+      `year` = #{record.year,jdbcType=VARCHAR},
+      box_number = #{record.boxNumber,jdbcType=VARCHAR},
+      folder_number = #{record.folderNumber,jdbcType=VARCHAR},
+      effective_time = #{record.effectiveTime,jdbcType=VARCHAR},
+      `name` = #{record.name,jdbcType=VARCHAR},
+      `time` = #{record.time,jdbcType=VARCHAR},
+      page = #{record.page,jdbcType=VARCHAR},
+      remarks = #{record.remarks,jdbcType=VARCHAR},
+      security_level = #{record.securityLevel,jdbcType=VARCHAR},
+      responsibility = #{record.responsibility,jdbcType=VARCHAR},
+      document_number = #{record.documentNumber,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.document.demo.domain.Document">
+    update document
+    <set>
+      <if test="fileNumber != null">
+        file_number = #{fileNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="year != null">
+        `year` = #{year,jdbcType=VARCHAR},
+      </if>
+      <if test="boxNumber != null">
+        box_number = #{boxNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="folderNumber != null">
+        folder_number = #{folderNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="effectiveTime != null">
+        effective_time = #{effectiveTime,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        `name` = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null">
+        `time` = #{time,jdbcType=VARCHAR},
+      </if>
+      <if test="page != null">
+        page = #{page,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null">
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="securityLevel != null">
+        security_level = #{securityLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="responsibility != null">
+        responsibility = #{responsibility,jdbcType=VARCHAR},
+      </if>
+      <if test="documentNumber != null">
+        document_number = #{documentNumber,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.document.demo.domain.Document">
+    update document
+    set file_number = #{fileNumber,jdbcType=VARCHAR},
+      `year` = #{year,jdbcType=VARCHAR},
+      box_number = #{boxNumber,jdbcType=VARCHAR},
+      folder_number = #{folderNumber,jdbcType=VARCHAR},
+      effective_time = #{effectiveTime,jdbcType=VARCHAR},
+      `name` = #{name,jdbcType=VARCHAR},
+      `time` = #{time,jdbcType=VARCHAR},
+      page = #{page,jdbcType=VARCHAR},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      security_level = #{securityLevel,jdbcType=VARCHAR},
+      responsibility = #{responsibility,jdbcType=VARCHAR},
+      document_number = #{documentNumber,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
 
     <resultMap id="DocumentResultMap" type="com.document.demo.bean.Document">
         <id column="id" jdbcType="VARCHAR" property="id" />
@@ -28,20 +367,9 @@
         security_level,responsibility,remarks,year,page FROM document where name like '%${name}%'
     </select>
 
-    <delete id="deleteByName" parameterType="java.lang.String" >
+    <delete id="deleteByName" parameterType="java.lang.String">
         DELETE FROM document where name = #{name}
     </delete>
-
-    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.document.demo.bean.Document"  useGeneratedKeys="true">
-  	INSERT INTO document(id,document_number,file_number,
-                box_number,folder_number,name,
-                time,effective_time,security_level,responsibility,
-                remarks,year,page)
-  	VALUES(#{id},#{documentNumber},#{fileNumber},#{
-                boxNumber},#{folderNumber},#{name},#{
-                time},#{effectiveTime},#{securityLevel},#{responsibility},#{
-                remarks},#{year},#{page})
-  </insert>
 
     <update id="updateById" keyColumn="id" keyProperty="id" parameterType="com.document.demo.bean.Document">
         UPDATE document SET
@@ -61,4 +389,3 @@
     </update>
 
 </mapper>
-
