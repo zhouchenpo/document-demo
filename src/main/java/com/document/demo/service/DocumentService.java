@@ -2,16 +2,17 @@ package com.document.demo.service;
 
 import com.document.demo.bean.Document;
 import com.document.demo.mapper.DocumentMapper;
+import com.document.demo.result.Result;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.relational.core.sql.In;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import javax.servlet.http.HttpServletResponse;
+import java.util.*;
 
 @Service
 public class DocumentService {
@@ -19,50 +20,51 @@ public class DocumentService {
     @Autowired
     private DocumentMapper documentMapper;
 
-    public Map<String, Object> queryAll(String pageNumber,String limit){
+    public Result queryAll(String pageNumber, String limit){
         int pageInt = Integer.parseInt(pageNumber);
         int limitInt = Integer.parseInt(limit);
         Page page= PageHelper.startPage(pageInt,limitInt);
         List<Document> content =  documentMapper.queryAll();
         long total = page.getTotal();
-        HashMap<String, Object> map = new HashMap<>();
+        HashMap<String, Object> dataMap = new HashMap<>();
+        HttpServletResponse httpServletResponse = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
+        assert httpServletResponse != null;
+        int status = httpServletResponse.getStatus();
+
+        dataMap.put("content",content);
+        dataMap.put("total",total);
+        dataMap.put("limit",limit);
+        dataMap.put("PageNumber",pageNumber);
         if(pageInt>total/limitInt+1){
-            map.put("msg","页数超出");
-            map.put("content",null);
-            map.put("totalDocumentNumber",total);
-            map.put("limit",limit);
-            map.put("PageNumber",pageNumber);
-        }else{
-            map.put("msg","请求成功");
-            map.put("content",content);
-            map.put("totalDocumentNumber",total);
-            map.put("limit",limit);
-            map.put("PageNumber",pageNumber);
+            dataMap.put("content",new ArrayList<Document>());
+
+            return new Result(dataMap,status,"页数超出",true);
         }
-        return map;
+        return new Result(dataMap,status,"查询成功",true);
+
     }
 
-    public Map<String,Object> queryByName(String name,String pageNumber,String limit){
+    public Result queryByName(String name,String pageNumber,String limit){
         int pageInt = Integer.parseInt(pageNumber);
         int limitInt = Integer.parseInt(limit);
         Page page= PageHelper.startPage(pageInt,limitInt);
         List<Document> content =  documentMapper.queryByName(name);
         long total = page.getTotal();
-        HashMap<String, Object> map = new HashMap<>();
+        HashMap<String, Object> dataMap = new HashMap<>();
+        HttpServletResponse httpServletResponse = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
+        assert httpServletResponse != null;
+        int status = httpServletResponse.getStatus();
+
+        dataMap.put("content",content);
+        dataMap.put("total",total);
+        dataMap.put("limit",limit);
+        dataMap.put("PageNumber",pageNumber);
         if(pageInt>total/limitInt+1){
-            map.put("msg","页数超出");
-            map.put("content",null);
-            map.put("totalDocumentNumber",total);
-            map.put("limit",limit);
-            map.put("PageNumber",pageNumber);
-        }else{
-            map.put("msg","请求成功");
-            map.put("content",content);
-            map.put("totalDocumentNumber",total);
-            map.put("limit",limit);
-            map.put("PageNumber",pageNumber);
+            dataMap.put("content",new ArrayList<Document>());
+
+            return new Result(dataMap,status,"页数超出",true);
         }
-        return map;
+        return new Result(dataMap,status,"查询成功",true);
     }
 
     public void deleteByName(String name){

@@ -1,17 +1,10 @@
 package com.document.demo.controller;
-import com.document.demo.bean.Document;
+import com.document.demo.result.Result;
 import com.document.demo.service.DocumentService;
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import com.document.demo.configuration.*;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @RestController
 public class DocumentController {
@@ -19,22 +12,22 @@ public class DocumentController {
     @Autowired
     private DocumentService documentService;
 
-    @RequestMapping(value = "/all", method = RequestMethod.GET)
-    public Map<String,Object> queryAll(String pageNumber,String limit) {
+    @RequestMapping(value = "/document/all", method = RequestMethod.GET)
+    public Result queryAll(String pageNumber, String limit) {
         return documentService.queryAll(pageNumber,limit);
     }
 
-    @RequestMapping(value = "/queryByName", method = RequestMethod.GET)
-    public Map<String,Object> queryByName(String name,String pageNumber,String limit) {
+    @RequestMapping(value = "/document/queryByName", method = RequestMethod.GET)
+    public Result queryByName(String name,String pageNumber,String limit) {
         return documentService.queryByName(name,pageNumber,limit);
     }
 
-    @RequestMapping(value = "/deleteByName", method = RequestMethod.GET)
+    @RequestMapping(value = "/document/deleteByName", method = RequestMethod.GET)
     public void deleteByName(String name) {
         documentService.deleteByName(name);
     }
 
-    @RequestMapping(value = "/insert", method = RequestMethod.GET)
+    @RequestMapping(value = "/document/insert", method = RequestMethod.GET)
     public void insert(String documentNumber,
             String fileNumber,
             String boxNumber,
@@ -54,7 +47,7 @@ public class DocumentController {
         responsibility,remarks,year,page);
     }
 
-    @RequestMapping(value = "/updateById", method = RequestMethod.GET)
+    @RequestMapping(value = "/document/updateById", method = RequestMethod.GET)
     public void updateById(String documentNumber,
                        String fileNumber,
                        String boxNumber,
