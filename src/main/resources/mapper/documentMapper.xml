@@ -15,6 +15,9 @@
     <result column="security_level" jdbcType="VARCHAR" property="securityLevel" />
     <result column="responsibility" jdbcType="VARCHAR" property="responsibility" />
     <result column="document_number" jdbcType="VARCHAR" property="documentNumber" />
+    <result column="file_path" jdbcType="VARCHAR" property="filePath" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -76,7 +79,8 @@
   </sql>
   <sql id="Base_Column_List">
     id, file_number, `year`, box_number, folder_number, effective_time, `name`, `time`, 
-    page, remarks, security_level, responsibility, document_number
+    page, remarks, security_level, responsibility, document_number, file_path, create_time, 
+    update_time
   </sql>
   <select id="selectByExample" parameterType="com.document.demo.example.DocumentExample" resultMap="BaseResultMap">
     select
@@ -90,17 +94,6 @@
     </if>
     <if test="orderByClause != null">
       order by ${orderByClause}
-    </if>
-    <if test="limit != null">
-      <if test="offset != null">
-        limit ${offset}, ${limit}
-      </if>
-      <if test="offset == null">
-        limit ${limit}
-      </if>
-    </if>
-    <if test="forUpdate != null and forUpdate == true">
-      for update
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -123,12 +116,14 @@
     insert into document (id,file_number, `year`, box_number,
       folder_number, effective_time, `name`, 
       `time`, page, remarks, 
-      security_level, responsibility, document_number
+      security_level, responsibility, document_number, 
+      file_path, create_time, update_time
       )
     values (#{id,jdbcType=VARCHAR},#{fileNumber,jdbcType=VARCHAR}, #{year,jdbcType=VARCHAR}, #{boxNumber,jdbcType=VARCHAR},
       #{folderNumber,jdbcType=VARCHAR}, #{effectiveTime,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{time,jdbcType=VARCHAR}, #{page,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, 
-      #{securityLevel,jdbcType=VARCHAR}, #{responsibility,jdbcType=VARCHAR}, #{documentNumber,jdbcType=VARCHAR}
+      #{securityLevel,jdbcType=VARCHAR}, #{responsibility,jdbcType=VARCHAR}, #{documentNumber,jdbcType=VARCHAR}, 
+      #{filePath,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
       )
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.document.demo.domain.Document" useGeneratedKeys="true">
@@ -173,9 +168,18 @@
       <if test="documentNumber != null">
         document_number,
       </if>
+      <if test="filePath != null">
+        file_path,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="fileNumber != null">
+      <if test="id != null">
         #{id,jdbcType=VARCHAR},
       </if>
       <if test="fileNumber != null">
@@ -213,6 +217,15 @@
       </if>
       <if test="documentNumber != null">
         #{documentNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="filePath != null">
+        #{filePath,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -264,6 +277,15 @@
       <if test="record.documentNumber != null">
         document_number = #{record.documentNumber,jdbcType=VARCHAR},
       </if>
+      <if test="record.filePath != null">
+        file_path = #{record.filePath,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -283,7 +305,10 @@
       remarks = #{record.remarks,jdbcType=VARCHAR},
       security_level = #{record.securityLevel,jdbcType=VARCHAR},
       responsibility = #{record.responsibility,jdbcType=VARCHAR},
-      document_number = #{record.documentNumber,jdbcType=VARCHAR}
+      document_number = #{record.documentNumber,jdbcType=VARCHAR},
+      file_path = #{record.filePath,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -327,6 +352,15 @@
       <if test="documentNumber != null">
         document_number = #{documentNumber,jdbcType=VARCHAR},
       </if>
+      <if test="filePath != null">
+        file_path = #{filePath,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -343,7 +377,10 @@
       remarks = #{remarks,jdbcType=VARCHAR},
       security_level = #{securityLevel,jdbcType=VARCHAR},
       responsibility = #{responsibility,jdbcType=VARCHAR},
-      document_number = #{documentNumber,jdbcType=VARCHAR}
+      document_number = #{documentNumber,jdbcType=VARCHAR},
+      file_path = #{filePath,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 

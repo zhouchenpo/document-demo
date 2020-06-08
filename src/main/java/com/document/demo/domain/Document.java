@@ -1,6 +1,7 @@
 package com.document.demo.domain;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * document
@@ -32,6 +33,15 @@ public class Document implements Serializable {
     private String responsibility;
 
     private String documentNumber;
+
+    /**
+     * 文件路径，英文逗号分隔
+     */
+    private String filePath;
+
+    private Date createTime;
+
+    private Date updateTime;
 
     private static final long serialVersionUID = 1L;
 
@@ -137,5 +147,29 @@ public class Document implements Serializable {
 
     public void setDocumentNumber(String documentNumber) {
         this.documentNumber = documentNumber;
+    }
+
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 }
