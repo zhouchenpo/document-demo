@@ -118,6 +118,17 @@ public List<com.document.demo.domain.Document> queryAllNew(DocumentQuery query){
     }
 
 
+
+    public com.document.demo.domain.Document detail(String id){
+        Assert.isTrue(!StringUtils.isEmpty(id),"id不存在");
+        return documentMapper.selectByPrimaryKey(id);
+    }
+
+    public int delete(String id){
+        Assert.isTrue(!StringUtils.isEmpty(id),"id不存在");
+        return documentMapper.deleteByPrimaryKey(id);
+    }
+
     public void deleteByName(String name){
 //        documentMapper.deleteByName(name);
 

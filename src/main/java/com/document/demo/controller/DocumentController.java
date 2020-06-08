@@ -8,6 +8,7 @@ import com.document.demo.result.Results;
 import com.document.demo.service.DocumentService;
 import com.document.demo.utils.OssOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -125,6 +126,27 @@ public class DocumentController {
     @RequestMapping(value = "/upload", method = {RequestMethod.GET,RequestMethod.POST})
     public void upload(MultipartFile file) throws IOException {
         ossOperation.upload(file);
+    }
+
+
+    @RequestMapping(value = "/detail", method = {RequestMethod.GET,RequestMethod.POST})
+    public Object detail(Document document) {
+        try {
+            return new Results(documentService.detail(document.getId()));
+        } catch (Exception e) {
+            return new Results(StatusCode.SYSTEM_ERROR, e.getMessage());
+        }
+
+    }
+
+    @RequestMapping(value = "/delete", method = {RequestMethod.GET,RequestMethod.POST})
+    public Object delete(Document document) {
+        try {
+            return new Results(documentService.delete(document.getId()));
+        } catch (Exception e) {
+            return new Results(StatusCode.SYSTEM_ERROR, e.getMessage());
+        }
+
     }
 
 }
