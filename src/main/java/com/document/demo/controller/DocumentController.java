@@ -6,19 +6,22 @@ import com.document.demo.execption.StatusCode;
 import com.document.demo.result.Result;
 import com.document.demo.result.Results;
 import com.document.demo.service.DocumentService;
+import com.document.demo.utils.OssOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
 @RestController
 @RequestMapping("/document")
 public class DocumentController {
-
+    @Autowired
+    private OssOperation ossOperation;
     @Autowired
     private DocumentService documentService;
 
@@ -117,6 +120,11 @@ public class DocumentController {
             return new Results(StatusCode.SYSTEM_ERROR, e.getMessage());
         }
 
+    }
+
+    @RequestMapping(value = "/upload", method = {RequestMethod.GET,RequestMethod.POST})
+    public void upload(MultipartFile file) throws IOException {
+        ossOperation.upload(file);
     }
 
 }
