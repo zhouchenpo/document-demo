@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -125,6 +126,10 @@ public class DocumentController {
     @RequestMapping(value = "/upload", method = {RequestMethod.GET,RequestMethod.POST})
     public void upload(MultipartFile file) throws IOException {
         ossOperation.upload(file);
+    }
+    @RequestMapping(value = "/download", method = {RequestMethod.GET})
+    public File download(String fileName) throws IOException {
+        return ossOperation.download(fileName);
     }
 
 }

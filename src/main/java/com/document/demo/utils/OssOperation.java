@@ -1,5 +1,6 @@
 package com.document.demo.utils;
 import com.aliyun.oss.*;
+import com.aliyun.oss.model.GetObjectRequest;
 import com.aliyun.oss.model.PutObjectRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -32,7 +33,18 @@ public class OssOperation {
         tempFile.delete();
     }
 
-//    public MultipartFile download(String fileName){
-//
-//    }
+    public File download(String fileName) throws IOException {
+        OSS ossClient = new OSSClientBuilder().build(endPoint,
+                accessKeyId, accessKeySecret);
+        String suffix=fileName.substring(fileName.lastIndexOf("."));
+        String prefix=fileName.substring(0,fileName.lastIndexOf(".")+1);
+        /*decoding*/
+        final File tempFile = File.createTempFile(UUID.randomUUID().toString(), suffix);
+        ossClient.getObject(new GetObjectRequest(bucket, fileName),
+                new File(tempFile.getAbsolutePath()));
+
+        return tempFile;
+
+    }
+
 }
