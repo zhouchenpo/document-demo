@@ -8,10 +8,7 @@ import com.document.demo.result.Results;
 import com.document.demo.service.DocumentService;
 import com.document.demo.utils.OssOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -106,7 +103,7 @@ public class DocumentController {
 
 
     @RequestMapping(value = "/insertSelective", method = {RequestMethod.GET, RequestMethod.POST})
-    public Results insertSelective(Document document) {
+    public Results insertSelective(@RequestBody Document document) {
         try {
             return new Results(documentService.insertSelective(document));
         } catch (Exception e) {
@@ -115,7 +112,7 @@ public class DocumentController {
     }
 
     @RequestMapping(value = "/updateSelective", method = {RequestMethod.GET, RequestMethod.POST})
-    public Results updateSelective(Document document) {
+    public Results updateSelective(@RequestBody Document document) {
         try {
             return new Results(documentService.updateSelective(document));
         } catch (Exception e) {
@@ -135,7 +132,7 @@ public class DocumentController {
 
 
     @RequestMapping(value = "/detail", method = {RequestMethod.GET,RequestMethod.POST})
-    public Object detail(Document document) {
+    public Object detail(@RequestBody Document document) {
         try {
             return new Results(documentService.detail(document.getId()));
         } catch (Exception e) {
@@ -145,7 +142,7 @@ public class DocumentController {
     }
 
     @RequestMapping(value = "/delete", method = {RequestMethod.GET,RequestMethod.POST})
-    public Object delete(Document document) {
+    public Object delete(@RequestBody Document document) {
         try {
             return new Results(documentService.delete(document.getId()));
         } catch (Exception e) {
