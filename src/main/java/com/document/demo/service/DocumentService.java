@@ -127,16 +127,16 @@ public List<com.document.demo.domain.Document> queryAllNew(DocumentQuery query){
     }
 
 
-    public void insertSelective(com.document.demo.domain.Document document) {
+    public int insertSelective(com.document.demo.domain.Document document) {
         document.setId(UUID.randomUUID().toString().replace("-",""));
-        documentMapper.insertSelective(document);
+        return documentMapper.insertSelective(document);
     }
 
-    public void updateSelective(com.document.demo.domain.Document document){
+    public int updateSelective(com.document.demo.domain.Document document){
 
         Assert.isTrue(!StringUtils.isEmpty(document.getId()),"ID不存在");
 
-        documentMapper.updateByPrimaryKeySelective(document);
+        return documentMapper.updateByPrimaryKeySelective(document);
 
     }
 
