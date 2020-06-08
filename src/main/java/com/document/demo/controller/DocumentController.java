@@ -1,12 +1,17 @@
 package com.document.demo.controller;
 import com.document.demo.bean.Document;
 import com.document.demo.service.DocumentService;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import com.document.demo.configuration.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class DocumentController {
@@ -15,13 +20,13 @@ public class DocumentController {
     private DocumentService documentService;
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
-    public List<Document> queryAll() {
-        return documentService.queryAll();
+    public Map<String,Object> queryAll(String pageNumber,String limit) {
+        return documentService.queryAll(pageNumber,limit);
     }
 
     @RequestMapping(value = "/queryByName", method = RequestMethod.GET)
-    public List<Document> queryByName(String name) {
-        return documentService.queryByName(name);
+    public Map<String,Object> queryByName(String name,String pageNumber,String limit) {
+        return documentService.queryByName(name,pageNumber,limit);
     }
 
     @RequestMapping(value = "/deleteByName", method = RequestMethod.GET)
