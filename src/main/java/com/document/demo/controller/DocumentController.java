@@ -29,7 +29,7 @@ public class DocumentController {
 
 
     @RequestMapping(value = "/allNew", method = RequestMethod.GET)
-    public Results allNew(DocumentQuery query) {
+    public Object allNew(DocumentQuery query) {
 
         try {
             List<Document> documents = documentService.queryAllNew(query);

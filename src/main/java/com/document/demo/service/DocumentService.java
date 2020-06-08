@@ -95,8 +95,10 @@ public class DocumentService {
 
 //    ******************************************************************************
 public List<com.document.demo.domain.Document> queryAllNew(DocumentQuery query){
-    Page page= PageHelper.startPage(query.getPageNumber(),query.getLimit());
+
     DocumentExample example = new DocumentExample();
+    example.setOffset(query.getPageNumber().longValue());
+    example.setLimit(query.getLimit());
     DocumentExample.Criteria criteria = example.createCriteria();
     if(!StringUtils.isEmpty(query.getName())){
         criteria.andNameLike("%" + query.getName() + "%");
@@ -106,7 +108,7 @@ public List<com.document.demo.domain.Document> queryAllNew(DocumentQuery query){
 }
 
     public long queryAllTotal(DocumentQuery query){
-        Page page= PageHelper.startPage(query.getPageNumber(),query.getLimit());
+//        Page page= PageHelper.startPage(query.getPageNumber(),query.getLimit());
         DocumentExample example = new DocumentExample();
         DocumentExample.Criteria criteria = example.createCriteria();
         if(!StringUtils.isEmpty(query.getName())){
