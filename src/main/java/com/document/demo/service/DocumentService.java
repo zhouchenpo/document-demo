@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -149,6 +150,7 @@ public List<com.document.demo.domain.Document> queryAllNew(DocumentQuery query){
 
         Assert.isTrue(!StringUtils.isEmpty(document.getId()),"ID不存在");
 
+        document.setUpdateTime(new Date());
         return documentMapper.updateByPrimaryKeySelective(document);
 
     }
